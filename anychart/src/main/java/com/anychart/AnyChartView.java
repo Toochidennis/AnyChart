@@ -162,12 +162,12 @@ public final class AnyChartView extends FrameLayout {
                         .append(chart.getJsBase()).append(".container(\"container\");")
                         .toString();
 
-                /*webView.evaluateJavascript(
+                webView.evaluateJavascript(
                         "anychart.theme({\n" +
                                 "     chart: {\n" +
                                 "       credits: {\n" +
                                 "         logoSrc: 'https://static.anychart.com/logo-for-android.png',\n" +
-                                "         text: 'AnyChart Trial Version'\n" +
+                                "         text: ''\n" +
                                 "       }\n" +
                                 "     }\n" +
                                 "   });" +
@@ -183,7 +183,6 @@ public final class AnyChartView extends FrameLayout {
                                     progressBar.setVisibility(GONE);
                             }
                         });
-*/
 
                 isRestored = false;
                 isRendered = true;
