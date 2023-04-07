@@ -162,11 +162,7 @@ public abstract class JsObject {
             try {
                 method = jsObjects[i].getClass().getMethod("generateJs");
                 result.append((String) method.invoke(jsObjects[i]));
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
+            } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
                 e.printStackTrace();
             }
             if (i != jsObjects.length - 1) {

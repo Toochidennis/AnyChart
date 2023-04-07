@@ -135,11 +135,7 @@ public final class AnyChartView extends FrameLayout {
                             return;
                         }
                         if (isRendered) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                                webView.evaluateJavascript(jsLine, null);
-                            } else {
-                                webView.loadUrl("javascript:" + jsLine);
-                            }
+                            webView.evaluateJavascript(jsLine, null);
                         } else {
                             js.append(jsLine);
                         }
@@ -158,7 +154,8 @@ public final class AnyChartView extends FrameLayout {
                 String resultJs = (isRestored)
                         ? js.toString()
                         : js
-                        .append((getContext().getPackageName() != "com.anychart.anychart") ? androidCheck(licenceKey) : "")
+                       // .append((getContext().getPackageName() != "com.anychart.anychart") ?
+                       // androidCheck(licenceKey) : "")
                         .append(chart.getJsBase()).append(".container(\"container\");")
                         .toString();
 
@@ -294,17 +291,18 @@ public final class AnyChartView extends FrameLayout {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
             byte[] array = md.digest(s.getBytes(StandardCharsets.UTF_8));
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < array.length; ++i) {
-                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
+            for (byte sB : array) {
+                sb.append(Integer.toHexString((sB & 0xFF) | 0x100).substring(1, 3));
             }
             return sb.toString();
         } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
         }
         return "";
     }
     
     private String androidCheck(String l) {
-        if (l == null || l.isEmpty() || md5(l) == "0df80e76aeca7dc40e01e876dca3542b") {
+        if (l == null || l.isEmpty() || md5(l).equals("0df80e76aeca7dc40e01e876dca3542b")) {
             return "var btoa = window.btoa(JSON.stringify({\n" +
                     "    chartType: '" + chart.getJsBase().replaceAll("\\d","") + "',\n" +
                     "    apkName: \"" + getContext().getPackageName() + "\"\n" +
